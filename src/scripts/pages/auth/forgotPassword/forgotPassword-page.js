@@ -3,27 +3,41 @@ import * as api from "../../../data/api";
 import Swal from "sweetalert2";
 
 export default class ForgotPasswordPage {
-  #presenter = null;
+    #presenter = null;
 
-  async render() {
+    async render() {
+        document.body.classList.add('auth-page');
     return `
-        <div class="forgot-password-page">
-            <h2>Forgot Password</h2>
-            <p>Masukkan email Anda. Kami akan mengirimkan link untuk reset password.</p>
-            <form id="forgotPasswordForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" required>
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-logo">
+                    <img src="./images/logo.png" alt="Mining Logo">
                 </div>
-                    
-                <button type="submit" id="submitButton" class="btn btn-primary">
-                    <span class="button-text">Submit</span>
-                    <span class="loading-spinner" style="display: none;">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Loading...
-                    </span>
-                </button>
-            </form>
+                <h2 class="auth-title">Forgot Password</h2>
+                <p class="auth-subtitle">Enter your email address and we'll send you a link to reset your password</p>
+                
+                <form id="forgotPasswordForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            class="form-input" 
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+                        
+                    <button type="submit" id="submitButton" class="btn-submit">
+                        <span class="btn-icon">✉</span>
+                        <span class="btn-text">Send Reset Link</span>
+                    </button>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>Remember your password? <a href="#/login" class="link-primary">Back to Login</a></p>
+                </div>
+            </div>
         </div>
     `;
   }

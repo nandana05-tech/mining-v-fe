@@ -6,35 +6,66 @@ export default class RegisterPage {
     #presenter = null;
 
     async render() {
+        document.body.classList.add('auth-page');
         return `
-            <div class="register-page">
-                <h2>Registrasi Akun Baru</h2>
-                <form id="registerForm">
-                    <div class="form-group">
-                        <label for="nama">Nama Lengkap</label>
-                        <input type="text" id="nama" class="form-control" required>
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-logo">
+                        <img src="./images/logo.png" alt="Mining Logo">
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" required>
+                    <h2 class="auth-title">Create Account</h2>
+                    <p class="auth-subtitle">Join Mining Value Chain Optimization System</p>
+                    
+                    <form id="registerForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="nama">Full Name</label>
+                            <input 
+                                type="text" 
+                                id="nama" 
+                                class="form-input" 
+                                placeholder="Enter your full name"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input" 
+                                placeholder="Enter your email"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="form-input" 
+                                placeholder="Create a strong password"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select id="role" class="form-input" required>
+                                <option value="">Select your role...</option>
+                                <option value="admin">Admin</option>
+                                <option value="mine_planner">Mine Planner</option>
+                                <option value="shipping_planner">Shipping Planner</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="submitButton" class="btn-submit btn-submit-success">
+                            <span class="btn-icon">✓</span>
+                            <span class="btn-text">Create Account</span>
+                        </button>
+                    </form>
+                    
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="#/login" class="link-primary">Login here</a></p>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="role">Role</label>
-                        <select id="role" class="form-control" required>
-                            <option value="">Pilih Role...</option>
-                            <option value="admin">Admin</option>
-                            <option value="mine_planner">Mine Planner</option>
-                            <option value="shipping_planner">Shipping Planner</option>
-                        </select>
-                    </div>
-                    <button type="submit" id="submitButton" class="btn btn-primary">
-                        <span class="button-text">Daftar</span>
-                    </button>
-                </form>
+                </div>
             </div>
         `;
     }

@@ -11,26 +11,64 @@ export default class ResetPasswordPage {
   }
 
   async render() {
+    document.body.classList.add('auth-page');
     const token = this.getTokenFromUrl();
 
     if (!token) {
       return `
-        <div class="container">
-          <h2>Reset Password</h2>
-          <p style="color:red;">Token tidak ditemukan atau tidak valid.</p>
+        <div class="auth-container">
+          <div class="auth-card">
+            <div class="auth-logo">
+              <img src="./images/logo.png" alt="Mining Logo">
+            </div>
+            <h2 class="auth-title">Invalid Token</h2>
+            <p class="auth-subtitle" style="color:#ef4444;">Token tidak ditemukan atau tidak valid.</p>
+            <div class="auth-footer">
+              <p><a href="#/login" class="link-primary">Back to Login</a></p>
+            </div>
+          </div>
         </div>
       `;
     }
 
     return `
-      <div class="container">
-        <h2>Reset Password</h2>
-        <form id="resetPasswordForm">
-          <input type="password" id="password" placeholder="Password Baru" required />
-          <input type="password" id="confirmPassword" placeholder="Konfirmasi Password" required />
-          <button type="submit">Reset Password</button>
-        </form>
-        <p id="statusMessage"></p>
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-logo">
+            <img src="./images/logo.png" alt="Mining Logo">
+          </div>
+          <h2 class="auth-title">Reset Password</h2>
+          <p class="auth-subtitle">Enter your new password below</p>
+          
+          <form id="resetPasswordForm" class="auth-form">
+            <div class="form-group">
+              <label for="password">New Password</label>
+              <input 
+                type="password" 
+                id="password" 
+                class="form-input" 
+                placeholder="Enter new password" 
+                required 
+              />
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input 
+                type="password" 
+                id="confirmPassword" 
+                class="form-input" 
+                placeholder="Confirm your password" 
+                required 
+              />
+            </div>
+            <button type="submit" class="btn-submit">
+              <span class="btn-icon">🔒</span>
+              <span class="btn-text">Reset Password</span>
+            </button>
+          </form>
+          
+          <p id="statusMessage" class="status-message"></p>
+        </div>
       </div>
     `;
   }
@@ -61,7 +99,7 @@ export default class ResetPasswordPage {
 
   showMessage(message, isError = false) {
     const msgEl = document.getElementById("statusMessage");
-    msgEl.style.color = isError ? "red" : "green";
+    msgEl.className = `status-message ${isError ? 'error' : 'success'}`;
     msgEl.textContent = message;
     console.log(message);
   }

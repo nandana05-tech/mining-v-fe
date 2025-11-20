@@ -9,25 +9,51 @@ export default class LoginPage {
     
 
     async render() {
+        document.body.classList.add('auth-page');
         return `
-            <div class="login-page">
-                <h2>Login Pengguna</h2>
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" required>
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-logo">
+                        <img src="./images/logo.png" alt="Mining Logo">
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" required>
-                    </div>
-                    <button type="submit" id="submitButton" class="btn btn-primary">Login</button>
-                </form>
+                    <h2 class="auth-title">Welcome Back</h2>
+                    <p class="auth-subtitle">Mining Value Chain Optimization System</p>
+                    
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="form-input" 
+                                placeholder="Enter your email"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="form-input" 
+                                placeholder="Enter your password"
+                                required
+                            >
+                        </div>
+                        <button type="submit" id="submitButton" class="btn-submit">
+                            <span class="btn-icon">➤</span>
+                            <span class="btn-text">Sign In</span>
+                        </button>
+                    </form>
 
-                <p class="forgot-password-text">
-                    Lupa password? 
-                    <a href="#" id="forgotPasswordLink">Klik di sini</a>
-                </p>
+                    <div class="auth-links">
+                        <a href="#" id="forgotPasswordLink" class="link-primary">Forgot your password?</a>
+                    </div>
+                    
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="#/register" class="link-primary">Register here</a></p>
+                    </div>
+                </div>
             </div>
         `;
     }
