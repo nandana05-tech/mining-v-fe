@@ -4,20 +4,33 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="favicon.png">
-
-    <title>App</title>
+    <!-- ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- font-aweseome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>OptiMine</title>
   </head>
   <body>
     <header>
       <div class="main-header container">
-        <a class="brand-name" href="#/">App</a>
+        <a class="brand-name" href="#/">
+          <img src="images/logo-72-t.png" alt="Logo">
+        </a>
 
         <nav id="navigation-drawer" class="navigation-drawer">
           <ul id="nav-list" class="nav-list">
-            <li><a href="#/">Beranda</a></li>
+            <li><a href="#/">Home</a></li>
+            <li><a href="#/dashboard-mine">Dashboard</a></li>
             <li><a href="#/about">About</a></li>
             <li><a href="#/login">Login</a></li>
             <li><a href="#/register">Register</a></li>
+            <li class="btn-role-user">
+              <a href="">
+                <ion-icon name="person" class="icon-person"></ion-icon>
+                <span class="role-person">Dickybungg</span>
+              </a>
+            </li>
           </ul>
         </nav>
 
