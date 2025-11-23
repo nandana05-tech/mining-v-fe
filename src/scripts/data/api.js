@@ -18,6 +18,11 @@ const ENDPOINTS = {
   // Password Reset
   FORGOT_PASSWORD: `${BASE_URL}/forgot-password`,
   RESET_PASSWORD: `${BASE_URL}/reset-password`,
+
+  // Dashboard Mine Planner (dicky)
+  MINE_PLANNER_KPI: `${BASE_URL}/mine-planner/dashboard/kpi`,
+  MINE_PLANNER_INFO: `${BASE_URL}/mine-planner/dashboard/info`,
+  MINE_PLANNER_NOTIFICATIONS: `${BASE_URL}/mine-planner/dashboard/notifications`,
 };
 
 /**
@@ -161,21 +166,52 @@ export async function forgotPassword({ email }) {
  * (Handler: resetPassword, Path: POST /reset-password)
  */
 export async function resetPassword(token, newPassword) {
-    try {
-      const res = await fetch(ENDPOINTS.RESET_PASSWORD, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          token: token,
-          newPassword: newPassword,
-        })
-      });
+  try {
+    const res = await fetch(ENDPOINTS.RESET_PASSWORD, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        token: token,
+        newPassword: newPassword,
+      })
+    });
 
-      return await res.json();
-    } catch (err) {
-      // console.error("Error during password reset:", err);
-      return { error: "Network error" };
-    }
+    return await res.json();
+  } catch (err) {
+    // console.error("Error during password reset:", err);
+    return { error: "Network error" };
   }
+}
+
+// Dashboard Mine Planner
+export async function getMinePlannerDashboardKpi() {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.MINE_PLANNER_KPI, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  return handleResponse(fetchResponse);
+}
+
+export async function getMinePlannerDashboardInfo() {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.MINE_PLANNER_INFO, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  return handleResponse(fetchResponse);
+}
+
+export async function getMinePlannerDashboardNotifications() {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.MINE_PLANNER_NOTIFICATIONS, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  return handleResponse(fetchResponse);
+}
