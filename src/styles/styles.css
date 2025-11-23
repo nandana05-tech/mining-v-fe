@@ -222,9 +222,51 @@ header {
   font-size: 0.9rem;
 }
 
+
 /* AI Assistant */
+.dashboard-assistant {
+  position: relative;
+}
+
+/* AI assitant extend */
+.assistant-expand-btn {
+  position: relative;
+  bottom: 12px;
+  left: 12px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: #fff;
+  padding: 6px 8px;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.assistant-expand-btn:hover {
+  transform: scale(1.07);
+}
+
+/* AI assitant modal */
+.assistant-modal {
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.assistant-modal .assistant-messages {
+  flex: 1;
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 0.75rem;
+}
+
 .assistant-body {
   padding: 1rem;
+  position: relative;
 }
 
 .assistant-messages {

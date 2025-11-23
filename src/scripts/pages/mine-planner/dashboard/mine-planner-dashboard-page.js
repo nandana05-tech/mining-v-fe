@@ -60,7 +60,7 @@ export default class MinePlannerDashboard {
 
           <!-- Panel Kanan - AI Assistant -->
           <section class="panel dashboard-assistant">
-            <header>
+            <header class="assistant-header">
               <h2>AI Assistant (Mine Planner)</h2>
             </header>
 
@@ -68,16 +68,15 @@ export default class MinePlannerDashboard {
               <div class="assistant-messages" id="assistant-messages"></div>
 
               <form id="assistant-form" class="assistant-input">
-                <input
-                  id="assistant-input"
-                  placeholder="Tanyakan sesuatu..."
-                  autocomplete="off"
-                />
-                <button type="submit">
-                  <i class="fa-solid fa-paper-plane btn-arrow"></i>
-                </button>
+                <input id="assistant-input" placeholder="Tanyakan sesuatu..." />
+                <button type="submit"><i class="fa-solid fa-paper-plane btn-arrow"></i></button>
               </form>
             </div>
+
+            <!-- BUTTON EXTEND -->
+            <button id="assistant-expand-btn" class="assistant-expand-btn">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+            </button>
           </section>
         </div>
 
@@ -253,31 +252,107 @@ export default class MinePlannerDashboard {
     const assistantForm = document.querySelector('#assistant-form');
     const assistantMessages = document.querySelector('#assistant-messages');
     const assistantInput = document.querySelector('#assistant-input');
+    const assistantExpandBtn = document.querySelector('#assistant-expand-btn');
 
     if (!assistantForm || !assistantMessages || !assistantInput) return;
 
+    // --- behaviour chat versi kecil (di card) ---
     assistantForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const text = assistantInput.value.trim();
       if (!text) return;
 
+      // pesan user
       assistantMessages.innerHTML += `
-        <div class="assistant-message user">
-          ${text}
-        </div>
-      `;
+      <div class="assistant-message user">
+        ${text}
+      </div>
+    `;
 
       assistantInput.value = '';
 
       // TODO: nanti call API via presenter
       assistantMessages.innerHTML += `
-        <div class="assistant-message bot">
-          Sedang menganalisis data...
-        </div>
-      `;
+      <div class="assistant-message bot">
+        Sedang menganalisis data...
+      </div>
+    `;
 
       assistantMessages.scrollTop = assistantMessages.scrollHeight;
     });
+
+    // --- behaviour tombol perbesar (extended modal) ---
+    if (assistantExpandBtn) {
+      assistantExpandBtn.addEventListener('click', () => {
+        this._openAssistantModal(assistantMessages);
+      });
+    }
   }
+  _openAssistantModal(sourceMessagesContainer) {
+    Swal.fire({
+      title: 'AI Assistant (Mine Planner)',
+      html: `
+      <div class="assistant-modal">
+        <div id="assistant-modal-messages" class="assistant-messages"></div>
+        <form id="assistant-modal-form" class="assistant-input">
+          <input
+            id="assistant-modal-input"
+            placeholder="Tanyakan sesuatu..."
+            autocomplete="off"
+          />
+          <button type="submit">
+            <i class="fa-solid fa-paper-plane btn-arrow"></i>
+          </button>
+        </form>
+      </div>
+    `,
+      showConfirmButton: false,
+      width: '800px',
+      padding: '1.5rem',
+    });
+
+    // copy isi chat versi kecil ke modal
+    const modalMessages = document.querySelector('#assistant-modal-messages');
+    if (modalMessages && sourceMessagesContainer) {
+      modalMessages.innerHTML = sourceMessagesContainer.innerHTML;
+      modalMessages.scrollTop = modalMessages.scrollHeight;
+    }
+
+    const modalForm = document.querySelector('#assistant-modal-form');
+    const modalInput = document.querySelector('#assistant-modal-input');
+
+    if (!modalForm || !modalInput || !modalMessages) return;
+
+    modalForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = modalInput.value.trim();
+      if (!text) return;
+
+      // pesan user di modal
+      modalMessages.innerHTML += `
+      <div class="assistant-message user">
+        ${text}
+      </div>
+    `;
+
+      modalInput.value = '';
+
+      // TODO: call API via presenter, lalu tampilkan respon
+      modalMessages.innerHTML += `
+      <div class="assistant-message bot">
+        Sedang menganalisis data (versi extended)...
+      </div>
+    `;
+
+      modalMessages.scrollTop = modalMessages.scrollHeight;
+
+      // OPTIONAL: sinkronkan juga ke card kecil
+      if (sourceMessagesContainer) {
+        sourceMessagesContainer.innerHTML = modalMessages.innerHTML;
+        sourceMessagesContainer.scrollTop = sourceMessagesContainer.scrollHeight;
+      }
+    });
+  }
+
 }
