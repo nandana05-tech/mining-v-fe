@@ -47,7 +47,7 @@ export default class MinePlannerDashboard {
         <div class="dashboard-main-grid">
           <!-- Panel Kiri - Map -->
           <section class="panel dashboard-map">
-            <header>
+            <header class="map-operation-header">
               <h2>Peta Operasi Pertambangan</h2>
             </header>
 
@@ -75,7 +75,7 @@ export default class MinePlannerDashboard {
 
             <!-- BUTTON EXTEND -->
             <button id="assistant-expand-btn" class="assistant-expand-btn">
-              <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+              <i class="fa-solid fa-up-right-and-down-left-from-center expand-icon"></i>
             </button>
           </section>
         </div>
@@ -118,7 +118,7 @@ export default class MinePlannerDashboard {
 
         <!-- ===== CHART SECTION ===== -->
         <section class="panel dashboard-charts">
-          <header>
+          <header class="dashboard-charts-header">
             <h2>Visualisasi dan Justifikasi AI</h2>
           </header>
 
@@ -154,7 +154,7 @@ export default class MinePlannerDashboard {
 
         <!-- ===== NOTIFICATION SECTION ===== -->
         <section class="panel dashboard-notification">
-          <header>
+          <header class="dashboard-notif-header">
             <h2>Notifikasi & Rekomendasi</h2>
           </header>
 

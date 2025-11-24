@@ -5,6 +5,7 @@ import RegisterPage from '../pages/auth/register/register-page';
 import ForgotPasswordPage from '../pages/auth/forgotPassword/forgotPassword-page';
 import ResetPasswordPage from '../pages/auth/resetPassword/resetPassword-page';
 import MinePlannerDashboard from '../pages/mine-planner/dashboard/mine-planner-dashboard-page';
+import ShippingPlannerDashboard from '../pages/shipping-planner/dashboard/shipping-planner-dashboard-page';
 
 const routes = {
   '/': new HomePage(),
@@ -14,6 +15,7 @@ const routes = {
   '/forgot-password': new ForgotPasswordPage(),
   '/reset-password': new ResetPasswordPage(),
   '/mine-planner': new MinePlannerDashboard(),
+  '/shipping-planner': new ShippingPlannerDashboard(),
 };
 
 export default routes;

@@ -1,5 +1,6 @@
 // CSS imports
-import '../styles/styles.css';
+// import '../styles/styles.css'; diubah ke main.css
+import '../styles/main.css';
 
 import App from './pages/app';
 

@@ -1,0 +1,303 @@
+/* grid baris pertama: ketersediaan armada dll*/
+.dashboard-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.kpi-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    justify-content: space-between;
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kpi-header h1 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.kpi-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 0.3rem;
+}
+
+.kpi-header span i {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+/* panel: baris kedua -> */
+.panel {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 2px 6px 12px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+}
+
+.panel header {
+    padding: 0.9rem 1.2rem;
+    font-size: 12px;
+    color: #fff;
+}
+
+.panel-body {
+    padding: 1.1rem 1.2rem 1.3rem;
+}
+
+/* header radius */
+.assistant-header,
+.map-operation-header,
+.dashboard-charts-header,
+.dashboard-notif-header {
+    border-radius: 12px 12px 0 0;
+}
+
+/* AI assitant modal */
+.assistant-modal {
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.assistant-modal .assistant-messages {
+    flex: 1;
+    max-height: 280px;
+    overflow-y: auto;
+    margin-bottom: 0.75rem;
+}
+
+.assistant-body {
+    padding: 1rem;
+    position: relative;
+}
+
+.assistant-messages {
+    border-radius: 10px;
+    border: 2px solid #cbd5f5;
+    padding: 2rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.assistant-message.user {
+    background: #e2e8f0;
+    align-self: flex-end;
+}
+
+.assistant-message.bot {
+    background: #eff6ff;
+    align-self: flex-start;
+}
+
+.assistant-input {
+    display: flex;
+    gap: 0.7rem;
+    margin-block: 1rem;
+}
+
+.assistant-input input {
+    flex: 1;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.assistant-input input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+}
+
+.assistant-input button {
+    border: none;
+    background: transparent;
+    color: #2563eb;
+}
+
+.assistant-input button .btn-arrow {
+    font-size: 1.3rem;
+    transform: rotate(45deg);
+    transition: all .3s ease-out;
+}
+
+.assistant-input button .btn-arrow:hover {
+    color: var(--primary-color);
+}
+
+.assistant-input button:active .btn-arrow {
+    transform: translate(12px);
+}
+
+/* AI assitant extend */
+.assistant-expand-btn {
+    position: relative;
+    bottom: 12px;
+    left: 12px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 6px 8px;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.assistant-expand-btn:hover {
+    box-shadow: 1px 1px 12px #64748b;
+}
+
+.assistant-expand-btn i {
+    transition: all 0.3s ease;
+}
+
+.assistant-expand-btn i:hover {
+    transform: scale(1.2);
+}
+
+/* Info card: card baris ke-3 */
+.dashboard-info-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-card {
+    padding: 8px 1.5rem;
+}
+
+.info-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-card-header h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.info-card-header span i {
+    font-size: 1.2rem;
+}
+
+.info-card p.info-description {
+    font-size: 12px;
+}
+
+#info-weather,
+#info-fleet,
+#info-queue {
+    font-weight: 600;
+    color: #0f172a;
+    margin-block: 12px;
+    font-size: 1.4rem;
+}
+
+/* Charts: baris ke-4 */
+
+.dashboard-charts .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.chart-card {
+    background: #f9fafb;
+    border-radius: 12px;
+    margin-block: 8px;
+    padding: 0.75rem 0.9rem 1rem;
+}
+
+.chart-card h3 {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.chart-placeholder {
+    margin-top: 0.6rem;
+    min-height: 160px;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+    background-color: #e9ecef;
+}
+
+.icon-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    height: 150px;
+}
+
+/* Notification: baris ke-5 */
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.notification-item--critical {
+    background: #fee2e2;
+}
+
+.notification-item--warning {
+    background: #fef9c3;
+}
+
+.notification-item h3 {
+    margin: 0 0 0.25rem;
+    font-size: 0.9rem;
+}
+
+.notification-item p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.notification-action {
+    border: none;
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background: #0f172a;
+    color: #ffffff;
+}

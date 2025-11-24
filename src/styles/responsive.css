@@ -1,0 +1,38 @@
+@media screen and (width > 1200px) {
+    .navigation-drawer {
+        min-height: auto;
+        width: auto;
+        padding: 0;
+        background-color: transparent;
+
+        flex-direction: row;
+        justify-content: space-between;
+
+        position: static;
+        box-shadow: none;
+        transform: translateX(0);
+    }
+
+    .nav-list {
+        flex-direction: row;
+    }
+
+    .nav-list li a {
+        display: inline-block;
+        color: #fff;
+    }
+
+    .drawer-button {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .container {
+        padding: 1.25rem 0.9rem;
+    }
+
+    .dashboard-main-grid {
+        grid-template-columns: 1fr;
+    }
+}

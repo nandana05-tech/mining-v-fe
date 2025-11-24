@@ -23,6 +23,11 @@ const ENDPOINTS = {
   MINE_PLANNER_KPI: `${BASE_URL}/mine-planner/dashboard/kpi`,
   MINE_PLANNER_INFO: `${BASE_URL}/mine-planner/dashboard/info`,
   MINE_PLANNER_NOTIFICATIONS: `${BASE_URL}/mine-planner/dashboard/notifications`,
+
+  // Dashboard Shipping Planner (dicky)
+  SHIPPING_PLANNER_KPI: `${BASE_URL}/shipping-planner/dashboard/kpi`,
+  SHIPPING_PLANNER_INFO: `${BASE_URL}/shipping-planner/dashboard/info`,
+  SHIPPING_PLANNER_NOTIFICATIONS: `${BASE_URL}/shipping-planner/dashboard/notifications`,
 };
 
 /**
@@ -210,6 +215,40 @@ export async function getMinePlannerDashboardNotifications() {
   const accessToken = getAccessToken();
 
   const fetchResponse = await fetch(ENDPOINTS.MINE_PLANNER_NOTIFICATIONS, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  return handleResponse(fetchResponse);
+}
+
+// =======================
+// Dashboard Shipping Planner
+// =======================
+
+export async function getShippingPlannerDashboardKpi() {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.SHIPPING_PLANNER_KPI, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  return handleResponse(fetchResponse);
+}
+
+export async function getShippingPlannerDashboardInfo() {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.SHIPPING_PLANNER_INFO, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  return handleResponse(fetchResponse);
+}
+
+export async function getShippingPlannerDashboardNotifications() {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.SHIPPING_PLANNER_NOTIFICATIONS, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 

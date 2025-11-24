@@ -1,0 +1,25 @@
+.dashboard {
+    max-width: 1300px;
+}
+
+/* main grid */
+.dashboard-main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
+    gap: 1.5rem;
+    margin-block: 1.5rem;
+}
+
+/* left main grid: map placeholder */
+.map-placeholder {
+    border-radius: 10px;
+    border: 2px dashed #cbd5f5;
+    padding: 2rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* .dashboard-assistant {
+    position: relative;
+} */
