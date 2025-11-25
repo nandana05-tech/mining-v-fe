@@ -65,12 +65,14 @@ export default class MinePlannerDashboard {
             </header>
 
             <div class="assistant-body">
-              <div class="assistant-messages" id="assistant-messages"></div>
+                <div class="assistant-messages" id="assistant-messages"></div>
 
-              <form id="assistant-form" class="assistant-input">
-                <input id="assistant-input" placeholder="Tanyakan sesuatu..." />
-                <button type="submit"><i class="fa-solid fa-paper-plane btn-arrow"></i></button>
-              </form>
+                <form id="assistant-form" class="assistant-input">
+                    <div class="input-gradient-wrapper"> 
+                        <input id="assistant-input" placeholder="Tanyakan sesuatu..." />
+                    </div>
+                    <button type="submit"><i class="fa-solid fa-paper-plane btn-arrow"></i></button>
+                </form>
             </div>
 
             <!-- BUTTON EXTEND -->
@@ -123,6 +125,7 @@ export default class MinePlannerDashboard {
           </header>
 
           <div class="charts-grid">
+          
             <div class="chart-card">
               <h3>Gantt Chart</h3>
               <div class="chart-placeholder" id="gantt-chart">

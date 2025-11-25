@@ -11,13 +11,27 @@
 }
 
 /* left main grid: map placeholder */
+/* .map-placeholder {
+    border-radius: 10px;
+    border: 2px dashed #cbd5f5;
+    padding: 2rem;
+    text-align: center;
+    color: #fff;
+    font-size: 0.9rem;
+} */
+
 .map-placeholder {
     border-radius: 10px;
     border: 2px dashed #cbd5f5;
     padding: 2rem;
     text-align: center;
-    color: #64748b;
+    color: #fff;
     font-size: 0.9rem;
+    background-color: #2d3748;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 /* .dashboard-assistant {

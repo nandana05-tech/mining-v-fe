@@ -1,19 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-* {
+
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
 
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Plus Jakarta Sans', 'Roboto', sans-serif;
+:root {
+    --primary-color: #1a202c;
+    --secondary-color: #F4A261;
+    --third-color: #00B4DB;
+    --background: #0e2136;
 }
 
-:root {
-    --primary-color: #03045e;
-    --secondary-color: #023e8a;
-    --third-color: #e09f3e;
+body {
+    font-family: 'Merriweather', 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--background);
+    color: #fff;
 }
