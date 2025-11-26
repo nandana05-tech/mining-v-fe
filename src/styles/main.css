@@ -2,4 +2,5 @@
 @import './layout.css';
 @import './components.css';
 @import './dashboard.css';
-@import './responsive.css'
+@import './responsive.css';
+@import './animation-effect.css';

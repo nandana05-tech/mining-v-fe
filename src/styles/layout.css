@@ -1,7 +1,5 @@
 .nav-header {
-    /* background: linear-gradient(138deg, rgba(3, 4, 94, 1) 0%, rgba(0, 53, 102, 1) 56%, rgba(30, 96, 145, 1) 92%); */
     background-color: var(--primary-color);
-    /* background-color: #2563eb; */
     box-shadow: 2px 2px 8px #33ff;
 }
 
@@ -10,7 +8,6 @@
     margin-inline: auto;
     max-width: 1300px;
 }
-
 
 .main-header {
     min-height: 80px;

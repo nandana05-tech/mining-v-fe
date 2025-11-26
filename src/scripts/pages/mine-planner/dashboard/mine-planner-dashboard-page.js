@@ -45,20 +45,18 @@ export default class MinePlannerDashboard {
 
         <!-- ===== MAIN GRID SECTION (MAP + ASSISTANT) ===== -->
         <div class="dashboard-main-grid">
-          <!-- Panel Kiri - Map -->
           <section class="panel dashboard-map">
             <header class="map-operation-header">
               <h2>Peta Operasi Pertambangan</h2>
             </header>
 
-            <div class="panel-body">
+            <div class="map-body">
               <div class="map-placeholder">
                 <p>Map Loading...</p>
               </div>
             </div>
           </section>
 
-          <!-- Panel Kanan - AI Assistant -->
           <section class="panel dashboard-assistant">
             <header class="assistant-header">
               <h2>AI Assistant (Mine Planner)</h2>
@@ -76,7 +74,7 @@ export default class MinePlannerDashboard {
             </div>
 
             <!-- BUTTON EXTEND -->
-            <button id="assistant-expand-btn" class="assistant-expand-btn">
+            <button type="button" id="assistant-expand-btn" class="assistant-expand-btn">
               <i class="fa-solid fa-up-right-and-down-left-from-center expand-icon"></i>
             </button>
           </section>
@@ -170,16 +168,13 @@ export default class MinePlannerDashboard {
   }
 
   async afterRender() {
-    // Inisialisasi presenter (Model + logic bisnis)
     this._presenter = new MinePlannerDashboardPresenter({ view: this });
     await this._presenter.init();
 
-    // Inisialisasi behaviour AI assistant (bagian interaksi UI)
     this._initAssistant();
   }
 
   // ====== Dipanggil PRESENTER ======
-
   showKpi(kpi) {
     if (!kpi) return;
 
