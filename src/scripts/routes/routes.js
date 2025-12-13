@@ -30,13 +30,13 @@ export const Router = {
         this.register('dashboard', aboutPage);
         this.register('auth', aboutPage);
         this.register('profile', aboutPage);
-        
+
         // Listen for hash changes
         window.addEventListener('hashchange', () => this.handleRouteChange());
-        
+
         // Handle initial route
         this.handleRouteChange();
-        
+
         return this;
     },
 
@@ -64,7 +64,7 @@ export const Router = {
     async handleRouteChange() {
         const hash = window.location.hash.slice(1) || Config.routes.default;
         const [routePath, queryString] = hash.split('?');
-        
+
         // Check if route is protected
         if (Config.routes.protected.includes(routePath)) {
             const isLoggedIn = localStorage.getItem(Config.storage.isLoggedIn) === 'true';
@@ -73,19 +73,19 @@ export const Router = {
                 return;
             }
         }
-        
+
         // Get route handler
         const handler = routes[routePath];
-        
+
         if (handler) {
             currentRoute = routePath;
-            
+
             // Parse query params
             const params = this.parseQuery(queryString);
-            
+
             // Execute handler
             await handler(params);
-            
+
             // Update active nav
             this.updateActiveNav(routePath);
         } else {
@@ -101,15 +101,15 @@ export const Router = {
      */
     parseQuery(queryString) {
         if (!queryString) return {};
-        
+
         const params = {};
         const pairs = queryString.split('&');
-        
+
         pairs.forEach(pair => {
             const [key, value] = pair.split('=');
             params[decodeURIComponent(key)] = decodeURIComponent(value || '');
         });
-        
+
         return params;
     },
 
@@ -123,17 +123,17 @@ export const Router = {
             const linkRoute = link.getAttribute('href')?.replace('#', '');
             link.classList.toggle('active', linkRoute === route);
         });
-        
+
         // Mobile nav
         document.querySelectorAll('.spa-mobile-nav-link').forEach(link => {
             const linkRoute = link.getAttribute('href')?.replace('#', '');
             link.classList.toggle('active', linkRoute === route);
         });
-        
+
         // Close mobile menu
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenu?.classList.add('hidden');
-        
+
         // Emit event
         EventBus.emit('routeChanged', route);
     },

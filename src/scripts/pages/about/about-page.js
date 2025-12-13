@@ -11,7 +11,7 @@ const templates = {
     planning: () => {
         const lang = App.Model.getState('language') || 'id';
         const p = getSection(lang, 'planning');
-        
+
         return `
     <div class="min-h-[calc(100vh-4rem)] pt-6 relative">
         <!-- Background Effects -->
@@ -205,7 +205,7 @@ const templates = {
     'ai-tools': () => {
         const lang = App.Model.getState('language') || 'id';
         const ai = getSection(lang, 'aiTools');
-        
+
         return `
     <div class="h-[calc(100vh-4rem)] pt-6">
         <div class="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -323,75 +323,376 @@ const templates = {
     dashboard: () => {
         const lang = App.Model.getState('language') || 'id';
         const d = getSection(lang, 'dashboard');
-        
+
         return `
     <div class="min-h-screen pt-6 pb-8 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
+            <!-- Page Header -->
             <div class="mb-8 animate-fade-in">
                 <h1 class="font-heading text-3xl md:text-4xl font-bold text-foreground">
-                    ${d.title}
+                    Operations Dashboard
                 </h1>
                 <p class="text-muted-foreground mt-2">
-                    ${d.subtitle}
+                    Real-time monitoring and analytics
                 </p>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <div class="glass border border-border rounded-xl p-4 animate-fade-in stagger-1">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-muted-foreground">${d.totalProduction}</span>
-                        <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+            <!-- Stats Grid - 5 Cards -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+                <!-- Stat Card 1: Production Plans -->
+                <div class="glass border border-border rounded-xl p-5 glow-hover animate-fade-in" style="animation-delay: 0.1s;">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-green-500">+5.2%</span>
                     </div>
-                    <p class="text-2xl font-bold text-foreground">24,580</p>
-                    <p class="text-xs text-green-500">+12.5% ${d.fromLastMonth}</p>
+                    <p class="font-heading text-2xl font-bold text-foreground">12,450 <span class="text-sm font-normal text-muted-foreground">tons</span></p>
+                    <p class="text-sm text-muted-foreground">Production Plans</p>
                 </div>
                 
-                <div class="glass border border-border rounded-xl p-4 animate-fade-in stagger-2">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-muted-foreground">${d.activeEquipment}</span>
-                        <i data-lucide="truck" class="w-4 h-4 text-primary"></i>
+                <!-- Stat Card 2: Active Equipment -->
+                <div class="glass border border-border rounded-xl p-5 glow-hover animate-fade-in" style="animation-delay: 0.15s;">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-green-500">+3.1%</span>
                     </div>
-                    <p class="text-2xl font-bold text-foreground">42</p>
-                    <p class="text-xs text-muted-foreground">${d.outOfTotal}</p>
+                    <p class="font-heading text-2xl font-bold text-foreground">23/25</p>
+                    <p class="text-sm text-muted-foreground">Active Equipment</p>
                 </div>
                 
-                <div class="glass border border-border rounded-xl p-4 animate-fade-in stagger-3">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-muted-foreground">${d.efficiencyRate}</span>
-                        <i data-lucide="gauge" class="w-4 h-4 text-amber-500"></i>
+                <!-- Stat Card 3: Shipping -->
+                <div class="glass border border-border rounded-xl p-5 glow-hover animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-green-500">+2.4%</span>
                     </div>
-                    <p class="text-2xl font-bold text-foreground">94.2%</p>
-                    <p class="text-xs text-amber-500">${d.target}: 95%</p>
+                    <p class="font-heading text-2xl font-bold text-foreground">8,320 <span class="text-sm font-normal text-muted-foreground">tons</span></p>
+                    <p class="text-sm text-muted-foreground">Shipped Today</p>
                 </div>
                 
-                <div class="glass border border-border rounded-xl p-4 animate-fade-in stagger-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-muted-foreground">${d.costSavings}</span>
-                        <i data-lucide="dollar-sign" class="w-4 h-4 text-green-500"></i>
+                <!-- Stat Card 4: Active Mines -->
+                <div class="glass border border-border rounded-xl p-5 glow-hover animate-fade-in" style="animation-delay: 0.25s;">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-green-500">100%</span>
                     </div>
-                    <p class="text-2xl font-bold text-foreground">$1.2M</p>
-                    <p class="text-xs text-green-500">${d.thisQuarter}</p>
+                    <p class="font-heading text-2xl font-bold text-foreground">4/4</p>
+                    <p class="text-sm text-muted-foreground">Active Mines</p>
+                </div>
+                
+                <!-- Stat Card 5: Active Alerts -->
+                <div class="glass border border-border rounded-xl p-5 glow-hover animate-fade-in" style="animation-delay: 0.3s;">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-red-500">-2</span>
+                    </div>
+                    <p class="font-heading text-2xl font-bold text-foreground">3</p>
+                    <p class="text-sm text-muted-foreground">Active Alerts</p>
                 </div>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-6">
-                <div class="glass border border-border rounded-xl p-6 animate-fade-in stagger-5">
-                    <h3 class="font-semibold text-foreground mb-4 flex items-center gap-2">
-                        <i data-lucide="line-chart" class="w-5 h-5 text-primary"></i>
-                        ${d.productionTrends}
-                    </h3>
-                    <div class="h-64 flex items-center justify-center bg-secondary/20 rounded-lg">
-                        <p class="text-muted-foreground">${d.chartPlaceholder}</p>
+            <!-- Main Content Grid: Chart + Live Operations -->
+            <div class="grid lg:grid-cols-3 gap-6 mb-8">
+                <!-- Chart Area (2/3 width) -->
+                <div class="lg:col-span-2 glass border border-border rounded-xl p-6 animate-fade-in" style="animation-delay: 0.3s;">
+                    <div class="flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <h2 class="font-heading font-semibold text-lg text-foreground">Production & Distribution Overview</h2>
+                    </div>
+                    <div class="flex flex-col items-center justify-center py-16 border-2 border-dashed border-border rounded-lg">
+                        <svg class="w-12 h-12 text-muted-foreground mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <p class="text-muted-foreground text-sm">Chart visualization will be displayed here</p>
+                        <p class="text-muted-foreground/60 text-xs mt-1">Connected to real-time data sources</p>
                     </div>
                 </div>
                 
-                <div class="glass border border-border rounded-xl p-6 animate-fade-in stagger-5">
-                    <h3 class="font-semibold text-foreground mb-4 flex items-center gap-2">
-                        <i data-lucide="truck" class="w-5 h-5 text-primary"></i>
-                        ${d.equipmentStatus}
-                    </h3>
-                    <div class="h-64 flex items-center justify-center bg-secondary/20 rounded-lg">
-                        <p class="text-muted-foreground">${d.statusPlaceholder}</p>
+                <!-- Live Status Panel (1/3 width) -->
+                <div class="glass border border-border rounded-xl p-6 animate-fade-in" style="animation-delay: 0.35s;">
+                    <div class="flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h2 class="font-heading font-semibold text-lg text-foreground">Live Operations</h2>
+                        <div class="ml-auto">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <!-- Weather Status -->
+                        <div class="flex items-center justify-between p-3 bg-secondary/30 rounded-lg border border-border/50 hover:bg-secondary/50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-foreground">Weather</span>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-green-500/10 text-green-500 border border-green-500/30">Clear</span>
+                        </div>
+                        
+                        <!-- Road Conditions -->
+                        <div class="flex items-center justify-between p-3 bg-secondary/30 rounded-lg border border-border/50 hover:bg-secondary/50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-foreground">Road Conditions</span>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-green-500/10 text-green-500 border border-green-500/30">Good</span>
+                        </div>
+                        
+                        <!-- Equipment Status -->
+                        <div class="flex items-center justify-between p-3 bg-secondary/30 rounded-lg border border-border/50 hover:bg-secondary/50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-foreground">Equipment</span>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/30">23/25 Active</span>
+                        </div>
+                        
+                        <!-- Production Status -->
+                        <div class="flex items-center justify-between p-3 bg-secondary/30 rounded-lg border border-border/50 hover:bg-secondary/50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-foreground">Production</span>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-green-500/10 text-green-500 border border-green-500/30">On Target</span>
+                        </div>
+                        
+                        <!-- Shipping Status -->
+                        <div class="flex items-center justify-between p-3 bg-secondary/30 rounded-lg border border-border/50 hover:bg-secondary/50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-medium text-foreground">Shipping</span>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/30">2 Ships Loading</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather & Environment + Recent Activities -->
+            <div class="grid lg:grid-cols-2 gap-6 mb-8">
+                <!-- Weather & Environment -->
+                <div class="glass border border-border rounded-xl p-6 animate-fade-in" style="animation-delay: 0.4s;">
+                    <div class="flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                        </svg>
+                        <h2 class="font-heading font-semibold text-lg text-foreground">Weather & Environment</h2>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-secondary/30 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-foreground">Temperature</p>
+                                    <p class="text-sm text-muted-foreground">Current conditions</p>
+                                </div>
+                            </div>
+                            <span class="text-xl font-bold text-foreground">28°C</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-secondary/30 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 11-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-foreground">Humidity</p>
+                                    <p class="text-sm text-muted-foreground">Air moisture level</p>
+                                </div>
+                            </div>
+                            <span class="text-xl font-bold text-foreground">65%</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-secondary/30 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2M9 10h6" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-foreground">Wind Speed</p>
+                                    <p class="text-sm text-muted-foreground">Current wind conditions</p>
+                                </div>
+                            </div>
+                            <span class="text-xl font-bold text-foreground">12 km/h</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activities -->
+                <div class="glass border border-border rounded-xl p-6 animate-fade-in" style="animation-delay: 0.45s;">
+                    <div class="flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h2 class="font-heading font-semibold text-lg text-foreground">Recent Activities</h2>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-3 p-3 bg-secondary/30 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-foreground">Production target achieved</p>
+                                <p class="text-xs text-muted-foreground">Mine Site A - 2 minutes ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 bg-secondary/30 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-foreground">Vessel MV-001 loading started</p>
+                                <p class="text-xs text-muted-foreground">Port Terminal - 15 minutes ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 bg-secondary/30 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-foreground">Equipment maintenance scheduled</p>
+                                <p class="text-xs text-muted-foreground">Excavator EX-007 - 1 hour ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 p-3 bg-secondary/30 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-foreground">New production plan created</p>
+                                <p class="text-xs text-muted-foreground">Planning Department - 2 hours ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Recommendations Section -->
+            <div class="glass border border-border rounded-xl p-6 border-glow animate-fade-in" style="animation-delay: 0.5s;">
+                <div class="flex items-center gap-2 mb-6">
+                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364-.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    <h2 class="font-heading font-semibold text-lg text-foreground">AI Insights & Recommendations</h2>
+                    <div class="ml-auto">
+                        <span class="px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full border border-primary/30">AI Powered</span>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-4">
+                    <!-- Recommendation 1: HIGH Priority -->
+                    <div class="glass border border-border rounded-lg p-4 hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-medium text-sm text-foreground">Optimize Equipment Schedule</h3>
+                            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-red-500/20 text-red-500 border border-red-500/30">HIGH</span>
+                        </div>
+                        <p class="text-xs text-muted-foreground mb-3">
+                            Reschedule maintenance for Excavator EX-007 to avoid production delays
+                        </p>
+                        <div class="border-t border-border/50 pt-3">
+                            <p class="text-xs text-muted-foreground">
+                                <span class="font-medium text-yellow-500">Impact:</span>
+                                <span> Prevents 15% production loss during peak hours</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Recommendation 2: MEDIUM Priority -->
+                    <div class="glass border border-border rounded-lg p-4 hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-medium text-sm text-foreground">Weather Route Adjustment</h3>
+                            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-500 border border-yellow-500/30">MEDIUM</span>
+                        </div>
+                        <p class="text-xs text-muted-foreground mb-3">
+                            Consider alternative routes due to forecasted rain in 4 hours
+                        </p>
+                        <div class="border-t border-border/50 pt-3">
+                            <p class="text-xs text-muted-foreground">
+                                <span class="font-medium text-yellow-500">Impact:</span>
+                                <span> Maintains delivery schedule reliability</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Recommendation 3: LOW Priority -->
+                    <div class="glass border border-border rounded-lg p-4 hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-medium text-sm text-foreground">Capacity Optimization</h3>
+                            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-blue-500/20 text-blue-500 border border-blue-500/30">LOW</span>
+                        </div>
+                        <p class="text-xs text-muted-foreground mb-3">
+                            Increase production capacity by 8% with current equipment efficiency
+                        </p>
+                        <div class="border-t border-border/50 pt-3">
+                            <p class="text-xs text-muted-foreground">
+                                <span class="font-medium text-yellow-500">Impact:</span>
+                                <span> Potential revenue increase of $50K/month</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -403,7 +704,7 @@ const templates = {
     auth: () => {
         const lang = localStorage.getItem('optimine-language') || 'id';
         const a = getSection(lang, 'auth');
-        
+
         return `
     <div class="min-h-screen flex items-center justify-center px-4 pt-6 pb-8">
         <div class="w-full max-w-md">
@@ -696,7 +997,7 @@ const templates = {
         const theme = localStorage.getItem('optimine-theme') || 'dark';
         const lang = localStorage.getItem('optimine-language') || 'id';
         const pr = getSection(lang, 'profile');
-        
+
         return `
         <div class="min-h-screen pt-6 pb-8 px-4 sm:px-6 lg:px-8">
             <div class="max-w-2xl mx-auto">
@@ -783,7 +1084,7 @@ const setupAuthHandlers = () => {
     const forgotPasswordBtn = document.getElementById('forgot-password-btn');
     const backToLoginBtn = document.getElementById('back-to-login-btn');
     const forgotPasswordForm = document.getElementById('forgot-password-form');
-    
+
     // Clone forms to remove all previous event listeners (prevent duplicate handlers)
     if (loginForm) {
         const loginFormClone = loginForm.cloneNode(true);
@@ -795,7 +1096,7 @@ const setupAuthHandlers = () => {
         registerForm.replaceWith(registerFormClone);
         registerForm = registerFormClone;
     }
-    
+
     // Tab switching - Login
     loginTab?.addEventListener('click', () => {
         loginTab.classList.add('active');
@@ -803,7 +1104,7 @@ const setupAuthHandlers = () => {
         loginForm?.classList.remove('hidden');
         registerForm?.classList.add('hidden');
     });
-    
+
     // Tab switching - Register
     registerTab?.addEventListener('click', () => {
         registerTab.classList.add('active');
@@ -811,7 +1112,7 @@ const setupAuthHandlers = () => {
         registerForm?.classList.remove('hidden');
         loginForm?.classList.add('hidden');
     });
-    
+
     // Password Strength Checker
     const registerPassword = document.getElementById('register-password');
     const passwordInfoContainer = document.getElementById('password-info-container');
@@ -827,7 +1128,7 @@ const setupAuthHandlers = () => {
     const reqLength = document.getElementById('req-length');
     const reqUppercase = document.getElementById('req-uppercase');
     const reqNumber = document.getElementById('req-number');
-    
+
     // Get current language translations
     const getAuthTranslations = () => {
         const lang = localStorage.getItem('optimine-language') || 'id';
@@ -844,7 +1145,7 @@ const setupAuthHandlers = () => {
             passwordMismatch: lang === 'en' ? 'Passwords do not match!' : 'Password tidak cocok!'
         };
     };
-    
+
     // Initialize requirement texts
     const initPasswordRequirements = () => {
         const t = getAuthTranslations();
@@ -853,7 +1154,7 @@ const setupAuthHandlers = () => {
         if (reqUppercase) reqUppercase.querySelector('span').textContent = t.uppercase;
         if (reqNumber) reqNumber.querySelector('span').textContent = t.number;
     };
-    
+
     const checkPasswordStrength = (password) => {
         const t = getAuthTranslations();
         let strength = 0;
@@ -864,21 +1165,21 @@ const setupAuthHandlers = () => {
             special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
             lowercase: /[a-z]/.test(password)
         };
-        
+
         // Update requirement indicators
         updateRequirement(reqLength, checks.length, t.minLength);
         updateRequirement(reqUppercase, checks.uppercase, t.uppercase);
         updateRequirement(reqNumber, checks.number, t.number);
-        
+
         // Calculate strength
         if (checks.length) strength++;
         if (checks.uppercase) strength++;
         if (checks.number) strength++;
         if (checks.special || (checks.lowercase && password.length >= 8)) strength++;
-        
+
         return { strength, checks };
     };
-    
+
     const updateRequirement = (element, isValid, text) => {
         if (!element) return;
         if (isValid) {
@@ -901,7 +1202,7 @@ const setupAuthHandlers = () => {
             `;
         }
     };
-    
+
     const updateStrengthUI = (strength) => {
         const t = getAuthTranslations();
         const colors = {
@@ -911,9 +1212,9 @@ const setupAuthHandlers = () => {
             3: { bar: 'bg-yellow-500', text: 'text-yellow-500', label: t.fair },
             4: { bar: 'bg-green-500', text: 'text-green-500', label: t.strong }
         };
-        
+
         const config = colors[strength];
-        
+
         // Update bars
         strengthBars.forEach((bar, index) => {
             if (!bar) return;
@@ -924,20 +1225,20 @@ const setupAuthHandlers = () => {
                 bar.classList.add('bg-secondary');
             }
         });
-        
+
         // Update text
         if (strengthText) {
             strengthText.textContent = config.label;
             strengthText.className = `text-xs font-medium ${config.text}`;
         }
     };
-    
+
     // Show password info on focus
     registerPassword?.addEventListener('focus', () => {
         initPasswordRequirements();
         passwordInfoContainer?.classList.remove('hidden');
     });
-    
+
     // Hide password info on blur (only if empty)
     registerPassword?.addEventListener('blur', () => {
         if (!registerPassword.value) {
@@ -945,14 +1246,14 @@ const setupAuthHandlers = () => {
             strengthContainer?.classList.add('hidden');
         }
     });
-    
+
     registerPassword?.addEventListener('input', (e) => {
         const password = e.target.value;
         const t = getAuthTranslations();
-        
+
         // Always show container when typing
         passwordInfoContainer?.classList.remove('hidden');
-        
+
         if (password.length > 0) {
             strengthContainer?.classList.remove('hidden');
             const { strength } = checkPasswordStrength(password);
@@ -966,13 +1267,13 @@ const setupAuthHandlers = () => {
             updateRequirement(reqNumber, false, t.number);
         }
     });
-    
+
     // Show Forgot Password
     forgotPasswordBtn?.addEventListener('click', () => {
         authCard?.classList.add('hidden');
         forgotPasswordCard?.classList.remove('hidden');
     });
-    
+
     // Back to Login from Forgot Password
     backToLoginBtn?.addEventListener('click', () => {
         forgotPasswordCard?.classList.add('hidden');
@@ -983,13 +1284,13 @@ const setupAuthHandlers = () => {
         loginForm?.classList.remove('hidden');
         registerForm?.classList.add('hidden');
     });
-    
+
     // Login Form Submit
     loginForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('login-email')?.value;
         const password = document.getElementById('login-password')?.value;
-        
+
         // Add loading state
         const submitBtn = loginForm.querySelector('button[type="submit"]');
         const originalText = submitBtn?.innerHTML;
@@ -1002,16 +1303,16 @@ const setupAuthHandlers = () => {
             `;
             submitBtn.disabled = true;
         }
-        
+
         await App.Presenter.handleLogin(email, password);
-        
+
         // Reset button
         if (submitBtn) {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
     });
-    
+
     // Register Form Submit
     registerForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -1020,26 +1321,26 @@ const setupAuthHandlers = () => {
         const password = document.getElementById('register-password')?.value;
         const confirmPassword = document.getElementById('register-confirm-password')?.value;
         const role = document.getElementById('register-role')?.value;
-        
+
         // Get translations for error messages
         const t = getAuthTranslations();
-        
+
         // Validate password requirements
         const hasMinLength = password.length >= 6;
         const hasUppercase = /[A-Z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
-        
+
         if (!hasMinLength || !hasUppercase || !hasNumber) {
             // Don't show toast here - let Presenter handle it
             return;
         }
-        
+
         // Validate passwords match
         if (password !== confirmPassword) {
             // Don't show toast here - let Presenter handle it
             return;
         }
-        
+
         // Add loading state
         const submitBtn = registerForm.querySelector('button[type="submit"]');
         const originalText = submitBtn?.innerHTML;
@@ -1052,21 +1353,21 @@ const setupAuthHandlers = () => {
             `;
             submitBtn.disabled = true;
         }
-        
+
         await App.Presenter.handleRegister(name, email, password, role);
-        
+
         // Reset button
         if (submitBtn) {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
     });
-    
+
     // Forgot Password Form Submit
     forgotPasswordForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('forgot-email')?.value;
-        
+
         // Add loading state
         const submitBtn = forgotPasswordForm.querySelector('button[type="submit"]');
         const originalText = submitBtn?.innerHTML;
@@ -1079,17 +1380,17 @@ const setupAuthHandlers = () => {
             `;
             submitBtn.disabled = true;
         }
-        
+
         // Simulate password reset (in real app, this would call an API)
         await new Promise(resolve => setTimeout(resolve, 1500));
         alert(`Password reset link sent to ${email}`);
-        
+
         // Reset button and go back to login
         if (submitBtn) {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
-        
+
         forgotPasswordCard?.classList.add('hidden');
         authCard?.classList.remove('hidden');
     });
@@ -1102,7 +1403,7 @@ const setupProfileHandlers = () => {
     let logoutBtn = document.getElementById('logout-btn');
     let themeToggle = document.getElementById('profile-theme-toggle');
     const langBtns = document.querySelectorAll('.profile-lang-btn');
-    
+
     // Clone buttons to remove all previous event listeners (prevent duplicate handlers)
     if (logoutBtn) {
         const logoutBtnClone = logoutBtn.cloneNode(true);
@@ -1114,11 +1415,11 @@ const setupProfileHandlers = () => {
         themeToggle.replaceWith(themeToggleClone);
         themeToggle = themeToggleClone;
     }
-    
+
     logoutBtn?.addEventListener('click', () => {
         App.Presenter.handleLogout();
     });
-    
+
     themeToggle?.addEventListener('click', () => {
         App.Model.toggleTheme();
         const dot = themeToggle.querySelector('span');
@@ -1127,7 +1428,7 @@ const setupProfileHandlers = () => {
         dot?.classList.toggle('bg-primary', isDark);
         themeToggle.classList.toggle('bg-primary/30', isDark);
     });
-    
+
     langBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.dataset.lang;
@@ -1146,11 +1447,11 @@ const setupChatHandlers = () => {
     const sendBtn = document.getElementById('send-btn');
     const messagesContainer = document.getElementById('chat-messages');
     const suggestedPrompts = document.querySelectorAll('.suggested-prompt');
-    
+
     // Function to add a message to chat
     const addMessage = (content, isUser = false) => {
         const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        
+
         const messageHTML = isUser ? `
             <div class="flex items-start gap-3 justify-end">
                 <div class="flex-1 max-w-[85%] flex flex-col items-end">
@@ -1180,26 +1481,26 @@ const setupChatHandlers = () => {
                 </div>
             </div>
         `;
-        
+
         messagesContainer?.insertAdjacentHTML('beforeend', messageHTML);
-        
+
         // Auto-scroll to bottom
         if (messagesContainer) {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
     };
-    
+
     // Function to send message
     const sendMessage = () => {
         const message = chatInput?.value?.trim();
         if (!message) return;
-        
+
         // Add user message
         addMessage(message, true);
-        
+
         // Clear input
         if (chatInput) chatInput.value = '';
-        
+
         // Simulate AI response (in real app, this would call an API)
         setTimeout(() => {
             const responses = [
@@ -1212,10 +1513,10 @@ const setupChatHandlers = () => {
             addMessage(randomResponse, false);
         }, 1000);
     };
-    
+
     // Send button click
     sendBtn?.addEventListener('click', sendMessage);
-    
+
     // Enter key to send
     chatInput?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -1223,7 +1524,7 @@ const setupChatHandlers = () => {
             sendMessage();
         }
     });
-    
+
     // Suggested prompts click
     suggestedPrompts.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1242,9 +1543,9 @@ const setupChatHandlers = () => {
 export const aboutPage = async (params) => {
     const route = Router.getCurrentRoute();
     const template = templates[route] || templates.planning;
-    
+
     await App.View.render(typeof template === 'function' ? template() : template, route);
-    
+
     // Setup handlers based on route
     if (route === 'auth') {
         setupAuthHandlers();

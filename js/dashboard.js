@@ -3,7 +3,7 @@
  * Handles dashboard stats, live status, and data visualization
  */
 
-(function() {
+(function () {
     'use strict';
 
     // ========================================
@@ -78,10 +78,10 @@
         showStatusDetails(item) {
             const label = item.querySelector('.text-foreground')?.textContent || 'Status';
             const badge = item.querySelector('.status-badge')?.textContent?.trim() || 'Unknown';
-            
+
             // For now, just log - could be expanded to show modal
             console.log(`Status Details - ${label}: ${badge}`);
-            
+
             // Add visual feedback
             item.classList.add('ring-2', 'ring-primary/50');
             setTimeout(() => {
@@ -92,7 +92,7 @@
         // Toggle recommendation card expansion
         toggleRecommendation(card) {
             const isExpanded = card.classList.contains('expanded');
-            
+
             // Remove expanded from all cards
             document.querySelectorAll('.recommendation-card').forEach(c => {
                 c.classList.remove('expanded');
@@ -129,7 +129,7 @@
             // Simulate small changes in stats
             const productionEl = document.querySelector('.stat-card:nth-child(1) .text-2xl');
             const distributionEl = document.querySelector('.stat-card:nth-child(2) .text-2xl');
-            
+
             // Add subtle pulse animation to indicate update
             const statCards = document.querySelectorAll('.stat-card');
             statCards.forEach(card => {
@@ -183,11 +183,10 @@
             if (existing) existing.remove();
 
             const toast = document.createElement('div');
-            toast.className = `dashboard-toast fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-up ${
-                type === 'success' ? 'bg-green-500' : 
-                type === 'error' ? 'bg-red-500' : 
-                type === 'warning' ? 'bg-yellow-500' : 'bg-primary'
-            } text-white font-medium`;
+            toast.className = `dashboard-toast fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-up ${type === 'success' ? 'bg-green-500' :
+                    type === 'error' ? 'bg-red-500' :
+                        type === 'warning' ? 'bg-yellow-500' : 'bg-primary'
+                } text-white font-medium`;
             toast.textContent = message;
 
             document.body.appendChild(toast);
