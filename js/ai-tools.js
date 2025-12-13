@@ -15,15 +15,16 @@ const AIToolsPage = (() => {
     // CONFIGURATION - n8n Webhook URLs
     // ========================================
     const CONFIG = {
-        // CORS sudah difix di n8n, jadi bisa langsung connect!
-        USE_BACKEND_PROXY: false,
-        BACKEND_PROXY_URL: 'http://localhost:5000/ai/chat',
-        
+        // Use backend proxy for AI - Production VPS
+        USE_BACKEND_PROXY: true,
+        BACKEND_PROXY_URL: 'http://139.59.224.58:5000/ai/chat',
+        BACKEND_HEALTH_URL: 'http://139.59.224.58:5000/ai/health',
+
         // Direct n8n URLs - URL webhook Anda yang sebenarnya
         N8N_WEBHOOK_URL: 'https://n8n.optiminev.site/webhook/chatbot123',
         N8N_WEBHOOK_TEST_URL: 'https://n8n.optiminev.site/webhook-test/chatbot123',
         USE_TEST_URL: false,  // Gunakan production karena workflow sudah Active
-        
+
         // Fallback ke response lokal jika n8n gagal
         USE_FALLBACK: true,
         // Timeout untuk request (ms)
@@ -50,7 +51,7 @@ const AIToolsPage = (() => {
     // ========================================
     // TRANSLATION HELPER
     // ========================================
-    
+
     const t = (key) => {
         if (window.OptiMine && window.OptiMine.LanguageManager) {
             return window.OptiMine.LanguageManager.t(key);
@@ -77,40 +78,40 @@ const AIToolsPage = (() => {
 
         // Setup event listeners
         setupEventListeners();
-        
+
         // Setup language change listener
         setupLanguageListener();
-        
+
         // Update welcome message based on current language
         updateWelcomeMessage();
-        
+
         // Focus on input
         chatInput.focus();
-        
+
         // Generate conversation ID
         state.conversationId = generateConversationId();
 
         console.log('AI Tools Page initialized');
     };
-    
+
     // ========================================
     // LANGUAGE CHANGE HANDLER
     // ========================================
-    
+
     const setupLanguageListener = () => {
         window.addEventListener('languagechange', (e) => {
             updateWelcomeMessage();
             updateSuggestedPrompts();
         });
     };
-    
+
     const updateWelcomeMessage = () => {
         const welcomeMessageEl = chatMessages.querySelector('.ai-message:first-child .message-bubble p');
         if (welcomeMessageEl) {
             welcomeMessageEl.textContent = t('aiTools.welcomeMessage');
         }
     };
-    
+
     const updateSuggestedPrompts = () => {
         const prompts = document.querySelectorAll('.suggested-prompt');
         const promptKeys = ['aiTools.prompt1', 'aiTools.prompt2', 'aiTools.prompt3'];
@@ -162,7 +163,7 @@ const AIToolsPage = (() => {
 
     const handleSendMessage = () => {
         const message = chatInput.value.trim();
-        
+
         if (!message || state.isTyping) return;
 
         // Check message length
@@ -173,11 +174,11 @@ const AIToolsPage = (() => {
 
         // Add user message
         addMessage(message, 'user');
-        
+
         // Clear input
         chatInput.value = '';
         sendBtn.disabled = true;
-        
+
         // Send to n8n AI (async)
         handleAIResponse(message);
     };
@@ -185,9 +186,9 @@ const AIToolsPage = (() => {
     const addMessage = (content, type, isHtml = false) => {
         const messageEl = document.createElement('div');
         messageEl.className = `chat-message ${type}-message flex items-start gap-3`;
-        
+
         const timestamp = getCurrentTime();
-        
+
         if (type === 'ai') {
             messageEl.innerHTML = `
                 <div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
@@ -221,10 +222,10 @@ const AIToolsPage = (() => {
         }
 
         chatMessages.appendChild(messageEl);
-        
+
         // Store message
         state.messages.push({ content, type, timestamp });
-        
+
         // Scroll to bottom
         scrollToBottom();
     };
@@ -302,7 +303,7 @@ const AIToolsPage = (() => {
                 console.log('Data is string');
                 return data;
             }
-            
+
             // Fallback: cari field yang berisi response panjang
             const possibleFields = ['content', 'result', 'answer', 'reply', 'chatResponse'];
             for (const field of possibleFields) {
@@ -310,13 +311,13 @@ const AIToolsPage = (() => {
                     return data[field];
                 }
             }
-            
+
             // If still nothing found, check nested structures
             if (data.body && typeof data.body === 'object') {
                 if (data.body.output) return data.body.output;
                 if (data.body.text) return data.body.text;
             }
-            
+
             return JSON.stringify(data);
         } catch (error) {
             clearTimeout(timeoutId);
@@ -344,7 +345,7 @@ const AIToolsPage = (() => {
     const updateConnectionStatus = (isConnected) => {
         const statusIndicator = document.querySelector('.ai-status-indicator');
         const statusText = document.querySelector('.ai-status-text');
-        
+
         if (statusIndicator) {
             if (isConnected) {
                 statusIndicator.classList.remove('bg-red-500');
@@ -354,7 +355,7 @@ const AIToolsPage = (() => {
                 statusIndicator.classList.add('bg-red-500');
             }
         }
-        
+
         if (statusText) {
             statusText.textContent = isConnected ? 'AI Online' : 'AI Offline';
         }

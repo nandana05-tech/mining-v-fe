@@ -4,11 +4,20 @@
 
 Dokumentasi ini menjelaskan API endpoints yang digunakan oleh OptiMine Frontend untuk berkomunikasi dengan Backend Server.
 
-**Base URL:** `http://localhost:5000`
+**Base URL (Production VPS):** `http://139.59.224.58:5000`
 
 ---
 
-## Authentication
+## Endpoints Summary
+
+| Endpoint | URL | Method |
+|----------|-----|--------|
+| Login | http://139.59.224.58:5000/login | POST |
+| Register | http://139.59.224.58:5000/register | POST |
+| AI Chat | http://139.59.224.58:5000/ai/chat | POST |
+| AI Health | http://139.59.224.58:5000/ai/health | GET |
+
+---
 
 Semua request yang memerlukan autentikasi harus menyertakan header:
 
