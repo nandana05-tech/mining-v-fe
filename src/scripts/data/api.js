@@ -89,36 +89,54 @@ const api = {
 
 /**
  * API Endpoints
+ * Only includes endpoints available from backend:
+ * - /login (POST)
+ * - /register (POST)
+ * - /ai/chat (POST)
+ * - /ai/health (GET)
  */
 export const API = {
-    // Auth endpoints
+    // Auth endpoints - Available from Backend VPS
     auth: {
-        login: (credentials) => api.post('/auth/login', credentials),
-        register: (userData) => api.post('/auth/register', userData),
-        logout: () => api.post('/auth/logout'),
-        profile: () => api.get('/auth/profile')
-    },
-
-    // Mining data endpoints
-    mining: {
-        getAll: () => api.get('/mining'),
-        getById: (id) => api.get(`/mining/${id}`),
-        create: (data) => api.post('/mining', data),
-        update: (id, data) => api.put(`/mining/${id}`, data),
-        delete: (id) => api.delete(`/mining/${id}`)
-    },
-
-    // Production endpoints
-    production: {
-        getStats: () => api.get('/production/stats'),
-        getPlan: (params) => api.get(`/production/plan?${new URLSearchParams(params)}`),
-        optimize: (data) => api.post('/production/optimize', data)
+        login: (credentials) => api.post('/login', credentials),
+        register: (userData) => api.post('/register', userData)
     },
 
     // AI Assistant endpoints - Connected to Backend AI Service
     ai: {
+        // Check AI Service Health
+        health: async () => {
+            console.log('🔍 Checking AI Health:', `${BASE_URL}/ai/health`);
+
+            try {
+                const response = await fetch(`${BASE_URL}/ai/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                console.log('✅ AI Health response:', data);
+
+                return {
+                    success: response.ok,
+                    status: data.status || (response.ok ? 'healthy' : 'unhealthy'),
+                    message: data.message || '',
+                    data: data
+                };
+            } catch (error) {
+                console.error('❌ AI Health check failed:', error);
+                return {
+                    success: false,
+                    status: 'error',
+                    message: error.message
+                };
+            }
+        },
+
+        // AI Chat endpoint
         chat: async (message) => {
-            // Use backend proxy to AI Service (Docker container on port 8000)
             const token = localStorage.getItem(Config.storage.token);
 
             console.log('🚀 Sending to Backend AI Service:', `${BASE_URL}/ai/chat`);
@@ -129,7 +147,6 @@ export const API = {
                     'Content-Type': 'application/json',
                 };
 
-                // Add Authorization header if token exists
                 if (token) {
                     headers['Authorization'] = `Bearer ${token}`;
                 }
@@ -141,12 +158,11 @@ export const API = {
                         chatInput: message,
                         message: message,
                         timestamp: new Date().toISOString(),
-                        userId: localStorage.getItem('user') || 'anonymous',
+                        userId: localStorage.getItem('optimine-user') || 'anonymous',
                         language: document.documentElement.lang || 'id'
                     })
                 });
 
-                // Try to get response body even if status is not ok
                 let data;
                 try {
                     const responseText = await response.text();
@@ -160,7 +176,6 @@ export const API = {
                 console.log('✅ AI Service response status:', response.status);
                 console.log('✅ AI Service response data:', data);
 
-                // Check if this is an error message
                 if (data.error) {
                     throw new Error(data.message || 'AI Service Error');
                 }
@@ -170,79 +185,20 @@ export const API = {
                 }
 
                 // Return response in expected format
-                // Backend returns: { success: true, data: { response: "...", model_used: "..." } }
                 const aiResponse = data.data?.response || data.response || data.output || data.text || data.message || 'No response';
 
                 return {
                     success: true,
                     data: {
-                        response: aiResponse
+                        response: aiResponse,
+                        model: data.data?.model_used || data.model || 'AI'
                     }
                 };
             } catch (error) {
                 console.error('❌ Error connecting to AI Service:', error);
                 throw error;
             }
-        },
-
-        // AI Planning - Auto Recommend endpoint
-        plan: async (payload) => {
-            const token = localStorage.getItem(Config.storage.token);
-
-            console.log('🚀 Sending to AI Plan Service:', `${BASE_URL}/ai/plan`);
-            console.log('Payload:', payload);
-
-            try {
-                const headers = {
-                    'Content-Type': 'application/json',
-                };
-
-                if (token) {
-                    headers['Authorization'] = `Bearer ${token}`;
-                }
-
-                const response = await fetch(`${BASE_URL}/ai/plan`, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(payload)
-                });
-
-                let data;
-                try {
-                    const responseText = await response.text();
-                    console.log('📦 Raw plan response:', responseText);
-                    data = responseText ? JSON.parse(responseText) : {};
-                } catch (parseError) {
-                    console.error('Parse error:', parseError);
-                    data = {};
-                }
-
-                console.log('✅ AI Plan response status:', response.status);
-                console.log('✅ AI Plan response data:', data);
-
-                if (data.error) {
-                    throw new Error(data.message || 'AI Plan Service Error');
-                }
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                return data;
-            } catch (error) {
-                console.error('❌ Error connecting to AI Plan Service:', error);
-                throw error;
-            }
-        },
-
-        recommend: (context) => api.post('/ai/recommend', context)
-    },
-
-    // Dashboard endpoints
-    dashboard: {
-        getSummary: () => api.get('/dashboard/summary'),
-        getCharts: () => api.get('/dashboard/charts'),
-        getAlerts: () => api.get('/dashboard/alerts')
+        }
     }
 };
 

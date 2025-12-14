@@ -335,6 +335,8 @@ const templates = {
                 <p class="text-muted-foreground mt-2">
                     Real-time monitoring and analytics
                 </p>
+                <!-- AI Status Badge Container -->
+                <div id="spa-ai-status-badge" class="inline-flex items-center gap-2 mt-3"></div>
             </div>
 
             <!-- Stats Grid - 5 Cards -->
@@ -643,7 +645,7 @@ const templates = {
                     </div>
                 </div>
                 
-                <div class="grid md:grid-cols-3 gap-4">
+                <div id="spa-ai-recommendations" class="grid md:grid-cols-3 gap-4">
                     <!-- Recommendation 1: HIGH Priority -->
                     <div class="glass border border-border rounded-lg p-4 hover:border-primary/50 transition-all cursor-pointer">
                         <div class="flex items-start justify-between mb-3">
@@ -1538,6 +1540,207 @@ const setupChatHandlers = () => {
 };
 
 /**
+ * Dashboard handlers - AI Integration
+ */
+const setupDashboardHandlers = () => {
+    const API_BASE_URL = 'http://139.59.224.58:5000';
+    const authToken = localStorage.getItem('optimine-token');
+
+    console.log('🚀 Initializing SPA Dashboard with AI Integration...');
+
+    // Update AI Status Badge
+    const updateAIStatusBadge = (isConnected, message = '') => {
+        const badge = document.getElementById('spa-ai-status-badge');
+        if (!badge) return;
+
+        if (isConnected) {
+            badge.innerHTML = `
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-green-500/10 text-green-500 rounded-full border border-green-500/30">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    AI Connected
+                </span>
+                ${message ? `<span class="text-xs text-muted-foreground">${message}</span>` : ''}
+            `;
+        } else {
+            badge.innerHTML = `
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-yellow-500/10 text-yellow-500 rounded-full border border-yellow-500/30">
+                    <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    Demo Mode
+                </span>
+                <span class="text-xs text-muted-foreground">Using sample data</span>
+            `;
+        }
+    };
+
+    // Update AI Recommendations UI
+    const updateRecommendationsUI = (aiResponse) => {
+        const container = document.getElementById('spa-ai-recommendations');
+        if (!container || !aiResponse) return;
+
+        const lines = aiResponse.split('\\n').filter(line => line.trim());
+        const recommendations = [];
+
+        let currentRec = null;
+        for (const line of lines) {
+            if (line.match(/^(\\d+\\.|[-•*])\\s+/) || line.match(/^\\*\\*.*\\*\\*/)) {
+                if (currentRec) recommendations.push(currentRec);
+                currentRec = {
+                    title: line.replace(/^(\\d+\\.|[-•*])\\s+/, '').replace(/\\*\\*/g, ''),
+                    description: ''
+                };
+            } else if (currentRec) {
+                currentRec.description += line + ' ';
+            }
+        }
+        if (currentRec) recommendations.push(currentRec);
+
+        if (recommendations.length > 0) {
+            const priorities = ['HIGH', 'MEDIUM', 'LOW'];
+            const priorityColors = {
+                'HIGH': 'bg-red-500/20 text-red-500 border-red-500/30',
+                'MEDIUM': 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30',
+                'LOW': 'bg-blue-500/20 text-blue-500 border-blue-500/30'
+            };
+
+            container.innerHTML = recommendations.slice(0, 3).map((rec, index) => {
+                const priority = priorities[index] || 'LOW';
+                return `
+                    <div class="glass border border-border rounded-lg p-4 hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-medium text-sm text-foreground">${rec.title.substring(0, 50)}</h3>
+                            <span class="px-2 py-0.5 text-xs font-medium rounded-full ${priorityColors[priority]} border">${priority}</span>
+                        </div>
+                        <p class="text-xs text-muted-foreground mb-3">
+                            ${rec.description.trim().substring(0, 150) || 'AI-generated recommendation.'}
+                        </p>
+                        <div class="border-t border-border/50 pt-3">
+                            <p class="text-xs text-muted-foreground">
+                                <span class="font-medium text-primary">Source:</span>
+                                <span> OptiMine AI Analysis</span>
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update AI Powered badge to AI Live
+            const aiBadge = container.parentElement?.querySelector('.ml-auto span');
+            if (aiBadge) {
+                aiBadge.className = 'px-2 py-1 text-xs font-medium bg-green-500/10 text-green-500 rounded-full border border-green-500/30';
+                aiBadge.textContent = 'AI Live';
+            }
+        }
+    };
+
+    // API Call Helper
+    const apiCall = async (endpoint, options = {}) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                ...(authToken && { 'Authorization': `Bearer ${authToken}` })
+            },
+            ...options
+        };
+
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                ...config,
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || `HTTP ${response.status}`);
+            }
+
+            return data;
+        } catch (error) {
+            console.error('API Error:', error);
+            return { error: true, message: error.message };
+        }
+    };
+
+    // Check AI Health
+    const checkAIHealth = async () => {
+        console.log('🔍 Checking AI Service health...');
+        try {
+            const result = await apiCall('/ai/health');
+
+            if (result && result.status === 'success') {
+                console.log('✅ AI Service is healthy:', result);
+                updateAIStatusBadge(true, result.message || 'AI Service is healthy');
+                return true;
+            } else {
+                console.log('⚠️ AI Service health check failed:', result);
+                updateAIStatusBadge(false);
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ AI Health check error:', error);
+            updateAIStatusBadge(false);
+            return false;
+        }
+    };
+
+    // Fetch AI Recommendations
+    const fetchAIRecommendations = async () => {
+        console.log('🤖 Fetching AI recommendations...');
+
+        try {
+            const response = await apiCall('/ai/chat', {
+                method: 'POST',
+                body: JSON.stringify({
+                    chatInput: 'Berikan 3 rekomendasi singkat untuk optimasi operasi tambang hari ini berdasarkan kondisi cuaca, armada, dan produksi. Format: judul singkat dan penjelasan 1 kalimat.',
+                    message: 'mining optimization recommendations',
+                    language: 'id'
+                })
+            });
+
+            if (response && !response.error) {
+                console.log('✅ AI Recommendations received:', response);
+                // Handle various response formats: {success, data: {...}}, {output}, {text}, etc.
+                const data = response.data || response;
+                const aiText = data.output || data.text || data.response || data.message ||
+                    (typeof data === 'string' ? data : JSON.stringify(data));
+                if (aiText) {
+                    updateRecommendationsUI(aiText);
+                    return aiText;
+                }
+            }
+            console.log('⚠️ AI Recommendations failed, using defaults');
+            return null;
+        } catch (error) {
+            console.error('❌ AI Recommendations error:', error);
+            return null;
+        }
+    };
+
+    // Initialize Dashboard (with guard to prevent double init)
+    const initDashboard = async () => {
+        // Prevent double initialization
+        if (window._dashboardInitialized) {
+            console.log('📊 Dashboard already initialized, skipping...');
+            return;
+        }
+        window._dashboardInitialized = true;
+
+        const aiHealthy = await checkAIHealth();
+
+        if (aiHealthy) {
+            await fetchAIRecommendations();
+        }
+    };
+
+    // Run initialization
+    initDashboard();
+};
+
+/**
  * About page handler - generic page renderer
  */
 export const aboutPage = async (params) => {
@@ -1553,5 +1756,7 @@ export const aboutPage = async (params) => {
         setupProfileHandlers();
     } else if (route === 'ai-tools') {
         setupChatHandlers();
+    } else if (route === 'dashboard') {
+        setupDashboardHandlers();
     }
 };
