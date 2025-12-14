@@ -171,8 +171,8 @@ const AuthPage = (() => {
         setLoading(true, loginForm);
 
         try {
-            // Call real API - Production VPS
-            const response = await fetch('http://139.59.224.58:5000/login', {
+            // Call real API
+            const response = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -268,8 +268,8 @@ const AuthPage = (() => {
 
             console.log('Sending registration data:', registerData);
 
-            // Call real API for registration - Production VPS
-            const registerResponse = await fetch('http://139.59.224.58:5000/register', {
+            // Call real API for registration
+            const registerResponse = await fetch('http://localhost:5000/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -284,8 +284,8 @@ const AuthPage = (() => {
                 throw new Error(registerResult.message || 'Registration failed');
             }
 
-            // Auto login after successful registration - Production VPS
-            const loginResponse = await fetch('http://139.59.224.58:5000/login', {
+            // Auto login after successful registration
+            const loginResponse = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

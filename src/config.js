@@ -17,6 +17,7 @@ export const Config = {
             aiChat: '/ai/chat',
             aiHealth: '/ai/health'
         }
+
     },
 
     // Routes Configuration

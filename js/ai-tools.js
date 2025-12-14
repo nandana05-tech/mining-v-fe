@@ -12,7 +12,7 @@ console.log('🔄 AI Tools Script Loaded - Version: 2025-12-12');
 
 const AIToolsPage = (() => {
     // ========================================
-    // CONFIGURATION - n8n Webhook URLs
+    // CONFIGURATION - Backend AI Service
     // ========================================
     const CONFIG = {
         // Use backend proxy for AI - Production VPS
@@ -248,17 +248,27 @@ const AIToolsPage = (() => {
         const timeoutId = setTimeout(() => controller.abort(), CONFIG.REQUEST_TIMEOUT);
 
         const webhookUrl = getWebhookUrl();
-        console.log('🚀 Sending to n8n:', webhookUrl);
+        console.log('🚀 Sending to AI Service:', webhookUrl);
         console.log('Message:', userMessage);
+
+        // Get JWT token for authentication
+        const token = localStorage.getItem('optimine-token');
+
+        // Build headers with Authorization
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
 
         try {
             const response = await fetch(webhookUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: headers,
                 body: JSON.stringify({
-                    chatInput: userMessage,  // n8n expects 'chatInput' for LLM Chain
+                    chatInput: userMessage,  // AI Service expects 'chatInput'
                     message: userMessage,     // Keep as fallback
                     conversationId: state.conversationId,
                     timestamp: new Date().toISOString(),
