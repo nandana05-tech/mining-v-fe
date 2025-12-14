@@ -89,36 +89,102 @@ const api = {
 
 /**
  * API Endpoints
- * Only includes endpoints available from backend:
- * - /login (POST)
- * - /register (POST)
- * - /ai/chat (POST)
- * - /ai/health (GET)
+ * Full integration with Backend Mining Management System
+ * Base URL: http://139.59.224.58:5000
+ * 
+ * Authentication Required for most endpoints (Bearer Token)
  */
 export const API = {
-    // Auth endpoints - Available from Backend VPS
+    // ========================================
+    // AUTH ENDPOINTS
+    // ========================================
     auth: {
         login: (credentials) => api.post('/login', credentials),
-        register: (userData) => api.post('/register', userData)
+        register: (userData) => api.post('/register', userData),
+        logout: (userId) => api.delete(`/logout/${userId}`),
+        getUser: (userId) => api.get(`/users/${userId}`),
+        updateUser: (userId, data) => api.put(`/users/${userId}`, data)
     },
 
-    // AI Assistant endpoints - Connected to Backend AI Service
+    // ========================================
+    // MINE OPERATIONS ENDPOINTS
+    // ========================================
+    mines: {
+        getAll: (params = {}) => {
+            const query = new URLSearchParams(params).toString();
+            return api.get(`/mines${query ? '?' + query : ''}`);
+        },
+        getById: (id) => api.get(`/mines/${id}`)
+    },
+
+    equipments: {
+        getAll: (params = {}) => {
+            const query = new URLSearchParams(params).toString();
+            return api.get(`/equipments${query ? '?' + query : ''}`);
+        },
+        getById: (id) => api.get(`/equipments/${id}`),
+        create: (data) => api.post('/equipments', data),
+        update: (id, data) => api.put(`/equipments/${id}`, data)
+    },
+
+    weather: {
+        getAll: (params = {}) => {
+            const query = new URLSearchParams(params).toString();
+            return api.get(`/weather${query ? '?' + query : ''}`);
+        }
+    },
+
+    roads: {
+        getAll: (params = {}) => {
+            const query = new URLSearchParams(params).toString();
+            return api.get(`/roads${query ? '?' + query : ''}`);
+        },
+        update: (id, data) => api.put(`/roads/${id}`, data)
+    },
+
+    productionPlans: {
+        getAll: (params = {}) => {
+            const query = new URLSearchParams(params).toString();
+            return api.get(`/production-plans${query ? '?' + query : ''}`);
+        },
+        create: (data) => api.post('/production-plans', data),
+        update: (id, data) => api.put(`/production-plans/${id}`, data)
+    },
+
+    shippingSchedules: {
+        getAll: (params = {}) => {
+            const query = new URLSearchParams(params).toString();
+            return api.get(`/shipping-schedules${query ? '?' + query : ''}`);
+        },
+        getById: (id) => api.get(`/shipping-schedules/${id}`),
+        create: (data) => api.post('/shipping-schedules', data),
+        update: (id, data) => api.put(`/shipping-schedules/${id}`, data)
+    },
+
+    effectiveCapacity: {
+        getAll: () => api.get('/effective-capacity'),
+        create: (data) => api.post('/effective-capacity', data),
+        update: (id, data) => api.put(`/effective-capacity/${id}`, data)
+    },
+
+    productionConstraints: {
+        getAll: () => api.get('/production-constraints'),
+        create: (data) => api.post('/production-constraints', data)
+    },
+
+    // ========================================
+    // AI ENDPOINTS
+    // ========================================
     ai: {
-        // Check AI Service Health
+        // Check AI Service Health (No Auth Required)
         health: async () => {
             console.log('🔍 Checking AI Health:', `${BASE_URL}/ai/health`);
-
             try {
                 const response = await fetch(`${BASE_URL}/ai/health`, {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { 'Content-Type': 'application/json' }
                 });
-
                 const data = await response.json();
-                console.log('✅ AI Health response:', data);
-
                 return {
                     success: response.ok,
                     status: data.status || (response.ok ? 'healthy' : 'unhealthy'),
@@ -127,29 +193,44 @@ export const API = {
                 };
             } catch (error) {
                 console.error('❌ AI Health check failed:', error);
-                return {
-                    success: false,
-                    status: 'error',
-                    message: error.message
-                };
+                return { success: false, status: 'error', message: error.message };
             }
         },
 
-        // AI Chat endpoint
+        // LLM Status (No Auth Required)
+        llmStatus: async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/ai/llm/status`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('❌ LLM Status check failed:', error);
+                return { error: true, message: error.message };
+            }
+        },
+
+        // RAG Health (No Auth Required)
+        ragHealth: async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/ai/rag/health`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('❌ RAG Health check failed:', error);
+                return { error: true, message: error.message };
+            }
+        },
+
+        // AI Chat
         chat: async (message) => {
             const token = localStorage.getItem(Config.storage.token);
-
-            console.log('🚀 Sending to Backend AI Service:', `${BASE_URL}/ai/chat`);
-            console.log('Message:', message);
-
             try {
-                const headers = {
-                    'Content-Type': 'application/json',
-                };
-
-                if (token) {
-                    headers['Authorization'] = `Bearer ${token}`;
-                }
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = `Bearer ${token}`;
 
                 const response = await fetch(`${BASE_URL}/ai/chat`, {
                     method: 'POST',
@@ -163,42 +244,50 @@ export const API = {
                     })
                 });
 
-                let data;
-                try {
-                    const responseText = await response.text();
-                    console.log('📦 Raw response:', responseText);
-                    data = responseText ? JSON.parse(responseText) : {};
-                } catch (parseError) {
-                    console.error('Parse error:', parseError);
-                    data = {};
-                }
+                const responseText = await response.text();
+                const data = responseText ? JSON.parse(responseText) : {};
 
-                console.log('✅ AI Service response status:', response.status);
-                console.log('✅ AI Service response data:', data);
+                if (data.error) throw new Error(data.message || 'AI Service Error');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-                if (data.error) {
-                    throw new Error(data.message || 'AI Service Error');
-                }
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                // Return response in expected format
                 const aiResponse = data.data?.response || data.response || data.output || data.text || data.message || 'No response';
-
                 return {
                     success: true,
-                    data: {
-                        response: aiResponse,
-                        model: data.data?.model_used || data.model || 'AI'
-                    }
+                    data: { response: aiResponse, model: data.data?.model_used || data.model || 'AI' }
                 };
             } catch (error) {
-                console.error('❌ Error connecting to AI Service:', error);
+                console.error('❌ AI Chat error:', error);
                 throw error;
             }
-        }
+        },
+
+        // AI Recommendations
+        recommendations: (mineId, options = {}) => api.post('/ai/recommendations', { mine_id: mineId, ...options }),
+
+        // Weather Forecast
+        weatherForecast: (mineId, days = 7) => api.post('/ai/weather/forecast', { mine_id: mineId, days }),
+
+        // Weather Classify
+        weatherClassify: (data) => api.post('/ai/weather/classify', data),
+
+        // Capacity Predict
+        capacityPredict: (data) => api.post('/ai/capacity/predict', data),
+
+        // Production Predict
+        productionPredict: (data) => api.post('/ai/production/predict', data),
+
+        // LLM Recommend
+        llmRecommend: (data) => api.post('/ai/llm/recommend', data),
+
+        // LLM Chat
+        llmChat: (message, history = []) => api.post('/ai/llm/chat', { message, conversation_history: history }),
+
+        // RAG Chat
+        ragChat: (message, history = [], includeRag = true) => api.post('/ai/rag/chat', {
+            message,
+            conversation_history: history,
+            include_rag_context: includeRag
+        })
     }
 };
 
